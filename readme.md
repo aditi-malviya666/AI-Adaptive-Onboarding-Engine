@@ -31,15 +31,22 @@ To be eligible for judging, the solution must demonstrate:
 
 ```
 AI-Adaptive-Onboarding-Engine/
+├── .env                    # Environment variables (HuggingFace API Key)
 ├── README.md
-├── Dockerfile              # Optional but encouraged for reproducibility
-├── requirements.txt
-├── app/
-│   ├── main.py             # Entry point / web UI
-│   ├── parser/             # Resume & JD parsing logic
-│   ├── skill_gap/          # Skill gap analysis & adaptive pathing
-│   └── ui/                 # Frontend components
-└── data/                   # Sample datasets / test inputs
+├── Dockerfile              # Docker configuration
+├── requirements.txt        # Python dependencies
+├── main.py                 # FastAPI application entry point
+├── parser.py               # Resume text extraction logic
+├── skill_extractor.py      # Skill extraction using NLP
+├── gap_analysis.py         # Skill gap & analysis mapping
+├── roadmap_generator.py    # Generates custom learning paths
+├── adaptive_engine.py      # Dynamic quizzing & assessment logic
+├── chatbot.py              # AI Mentor chatbot
+├── frontend/               # Web UI components (HTML, CSS, JS)
+│   ├── index.html
+│   ├── script.js
+│   └── styles.css
+└── datasets/               # Datasets and knowledge graphs
 ```
 
 ---
@@ -50,8 +57,8 @@ AI-Adaptive-Onboarding-Engine/
 - **Frameworks:** (e.g., LangChain, FastAPI, Streamlit, Flask)
 - **Datasets:**
   - [Resume Dataset – Kaggle](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
-  - [Job Descriptions – OneNetCenter](https://www.onetonline.org/db_releases.html)
-  - [Job & Description Dataset – Kaggle](https://www.kaggle.com/datasets/kishksingh/jobs-and-job-description)
+  - [Job Descriptions – OneNetCenter](https://www.onetcenter.org/db_releases.html)
+  - [Job & Description Dataset – Kaggle](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 
 > ⚠️ All datasets and open-source models **must be explicitly cited** in documentation.
 
@@ -69,18 +76,34 @@ AI-Adaptive-Onboarding-Engine/
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/AI-Adaptive-Onboarding-Engine.git
+git clone https://github.com/aditi-malviya666/AI-Adaptive-Onboarding-Engine.git
 cd AI-Adaptive-Onboarding-Engine
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
+### Environment Setup
+
+Create a `.env` file in the root directory and add the following:
+
+```env
+HUGGINGFACE_API_KEY=your_huggingface_api_key_here
+```
+
 ### Running the Application
 
+Start the backend server and frontend view:
+
 ```bash
-python app/main.py
+# Standard spin-up
+python main.py
+
+# Alternatively, run via Uvicorn explicitly
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
+
+The server runs on `http://localhost:8000`. Access the interactive Web UI at `http://localhost:8000/static/index.html`.
 
 Or with Docker:
 
@@ -162,23 +185,27 @@ Resume (PDF/Text)      Job Description
 - **Duration:** 2–3 minutes
 - **Content:** End-to-end user journey showcasing the UI and how the pathway adapts to different inputs
 
-### C. Technical Presentation ("The 5-Slide Deck")
+### C. Technical Presentation (The "5-Slide Deck")
 
-| Slide | Content |
-|---|---|
-| 1 | **Solution Overview** – Value proposition and problem-solving approach |
-| 2 | **Architecture & Workflow** – System design, data flow, and UI/UX design |
-| 3 | **Tech Stack & Models** – Detailed list of LLMs, embedding models, and frameworks |
-| 4 | **Algorithms & Training** – Deep dive into the skill-extraction logic and "Adaptive Pathing" algorithm |
-| 5 | **Datasets & Metrics** – Disclosure of all public datasets used and internal metrics |
+Your presentation must be strictly limited to **5 slides** using the following structure:
+
+1. **Solution Overview:** Value proposition and the specific problem-solving approach.
+2. **Architecture & Workflow:** System design, data flow, and UI/UX logic.
+3. **Tech Stack & Models:** Detailed list of LLMs, embedding models, and frameworks used.
+4. **Algorithms & Training:** Deep dive into the skill-extraction logic and the "Adaptive Pathing" algorithm (e.g., Graph-based or Knowledge Tracing).
+5. **Datasets & Metrics:** Disclosure of all public datasets used and the internal metrics used to validate the engine's efficiency.
+    - Datasets you may find useful:
+        - [Resume Dataset](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
+        - [O*NET Database Releases](https://www.onetcenter.org/db_releases.html)
+        - [Jobs and Job Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 
 ---
 
 ## 📚 References
 
-- [O\*NET Database Releases](https://www.onetonline.org/db_releases.html)
+- [O\*NET Database Releases](https://www.onetcenter.org/db_releases.html)
 - [Resume Dataset – Kaggle](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
-- [Jobs and Job Description Dataset – Kaggle](https://www.kaggle.com/datasets/kishksingh/jobs-and-job-description)
+- [Jobs and Job Description Dataset – Kaggle](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 - Pre-trained models: *(list all models used, e.g., Llama 3, BERT, Mistral)*
 
 ---
@@ -187,7 +214,7 @@ Resume (PDF/Text)      Job Description
 
 | Name | Role |
 |---|---|
-| *(Your Name)* | *(Your Role)* |
+| *Aditi Malviya & Vishal Kushwaha* |
 
 ---
 
