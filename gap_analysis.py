@@ -8,20 +8,22 @@ class GapAnalyzer:
         self.model_name = model_name
         self.encoder = None         # Lazy-loaded on first use
         self.use_transformer = False
-        self.vectorizer = TfidfVectorizer()  # Always available as fallback
+        self.vectorizer = TfidfVectorizer(token_pattern=r"(?u)\S+", lowercase=True)  # Always available as fallback
         print(f"GapAnalyzer ready (BERT model '{model_name}' will load on first use).")
 
     def _get_encoder(self):
         """Lazy-loads the sentence transformer model only when first needed."""
         if self.encoder is None and self.model_name.lower() != "tfidf":
             try:
+                # Use a lightweight model or allow timeout if possible
                 from sentence_transformers import SentenceTransformer
-                print(f"Loading BERT model '{self.model_name}' (first time use)...")
+                print(f"--- [AI ENGINE] Loading BERT model '{self.model_name}' (approx 420MB)... ---")
+                print("--- Note: This may take 1-2 minutes on first run depending on internet speed. ---")
                 self.encoder = SentenceTransformer(self.model_name)
                 self.use_transformer = True
-                print("BERT model loaded successfully.")
+                print("--- [AI ENGINE] BERT model loaded successfully. ---")
             except Exception as e:
-                print(f"BERT model failed to load: {e}. Using TF-IDF fallback.")
+                print(f"--- [AI ENGINE] BERT model failed/timed out: {e}. Falling back to TF-IDF. ---")
                 self.encoder = None
                 self.use_transformer = False
         return self.encoder
@@ -33,8 +35,12 @@ class GapAnalyzer:
             embeddings = encoder.encode(texts)
             return cosine_similarity(embeddings)
         else:
-            tfidf_matrix = self.vectorizer.fit_transform(texts)
-            return cosine_similarity(tfidf_matrix)
+            try:
+                tfidf_matrix = self.vectorizer.fit_transform(texts)
+                return cosine_similarity(tfidf_matrix)
+            except ValueError:
+                # e.g., "empty vocabulary" if texts only contain stopwords or ignored characters
+                return np.zeros((len(texts), len(texts)))
 
     def calculate_similarity(self, text1: str, text2: str) -> float:
         """Calculates cosine similarity between two texts (e.g. JD and Resume)."""
