@@ -50,6 +50,11 @@ class RoadmapGenerator:
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=800,
             )
+            
+            if not response or not response.choices:
+                print("--- [AI ENGINE] Empty response from Hugging Face. ---")
+                return None
+                
             text_response = response.choices[0].message.content
             
             # Parse it
@@ -68,15 +73,18 @@ class RoadmapGenerator:
             json_match = re.search(r'\[.*\]', clean_text, re.DOTALL)
             if json_match:
                 roadmap_data = json.loads(json_match.group(0))
+                if not roadmap_data:
+                    return None
+                    
                 # Add our generic formatting
                 for i, step in enumerate(roadmap_data):
                     step["step"] = i + 1
                     step["status"] = "not_started"
                     step["is_core_gap"] = step.get("skill", "").lower() in [s.lower() for s in missing_skills]
-                print(f"Successfully generated LLM roadmap with {len(roadmap_data)} steps.")
+                print(f"--- [AI ENGINE] Successfully generated LLM roadmap with {len(roadmap_data)} steps. ---")
                 return roadmap_data
                 
-            print(f"Failed to parse JSON out of LLM response: {text_response}")
+            print(f"--- [AI ENGINE] Failed to parse JSON out of LLM response: {text_response} ---")
             return None
             
         except ImportError:

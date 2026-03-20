@@ -13,7 +13,14 @@ document.getElementById('analyze-btn').addEventListener('click', async () => {
         return;
     }
 
-    document.getElementById('analyze-btn').textContent = "Analyzing...";
+    document.getElementById('analyze-btn').disabled = true;
+    document.getElementById('analyze-btn').innerHTML = '<span class="spinner"></span> Analyzing Skills...';
+    
+    // Show a hint that first-time load might be slow
+    const resultsSection = document.getElementById('results-section');
+    resultsSection.classList.remove('hidden');
+    const timeline = document.getElementById('roadmap-timeline');
+    timeline.innerHTML = '<p style="color:var(--primary-color); text-align:center; padding: 2rem;">🧠 AI Engine is identifying skill gaps...<br><span style="font-size:0.8em; color:gray;">(Note: First analysis may take a minute to load ML models)</span></p>';
 
     const formData = new FormData();
     formData.append("job_description_target", jdText);
@@ -26,6 +33,8 @@ document.getElementById('analyze-btn').addEventListener('click', async () => {
             body: formData
         });
 
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        
         const data = await response.json();
 
         // Render Score
@@ -61,12 +70,15 @@ document.getElementById('analyze-btn').addEventListener('click', async () => {
         renderRoadmap(currentRoadmap);
 
         document.getElementById('results-section').classList.remove('hidden');
+        document.getElementById('analyze-btn').disabled = false;
         document.getElementById('analyze-btn').textContent = "Generate Roadmap 🚀";
 
     } catch (err) {
         console.error(err);
-        alert("Error analyzing. Is backend running?");
+        alert("Error analyzing: " + err.message + ". Please check if backend is running.");
+        document.getElementById('analyze-btn').disabled = false;
         document.getElementById('analyze-btn').textContent = "Generate Roadmap 🚀";
+        timeline.innerHTML = '<p style="color:#ff4d4d; text-align:center; padding:2rem;">❌ Analysis failed. Please try again or check server logs.</p>';
     }
 });
 
