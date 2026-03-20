@@ -1,29 +1,30 @@
 # 🚀 AI-Adaptive Onboarding Engine
 
-> A hackathon project that builds an AI-driven, adaptive learning engine that parses a new hire's current capabilities (via resume or diagnostic) and dynamically maps an optimized, personalized training pathway to reach role-specific competency.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg)](https://fastapi.tiangolo.com/)
+
+> An AI-driven, adaptive learning engine that parses a new hire's current skills (via Resume or diagnostic) and dynamically generates a personalized training pathway to reach role-specific competency.
 
 ---
 
 ## 📌 Problem Statement
 
-Current corporate onboarding often utilizes static, "one-size-fits-all" curricula, resulting in significant inefficiencies. Experienced hires waste time on known concepts, while beginners may be overwhelmed by advanced modules.
-
-**The Challenge:** Build an AI-driven, adaptive learning engine that:
-- Parses a new hire's current capabilities from a **Resume** or **diagnostic assessment**
-- Dynamically maps an optimized, **personalized learning pathway**
-- Addresses the specific **"skill gap"** identified for role-specific competency
+Current corporate onboarding often uses static, "one-size-fits-all" curricula — experienced hires waste time on content they already know, while beginners get overwhelmed. This engine solves that by:
+- Parsing skills from a **Resume** or **Job Description**
+- Identifying the specific **skill gaps**
+- Generating a **personalized, prerequisite-aware learning roadmap**
+- Adapting the roadmap in real-time based on **quiz performance**
 
 ---
 
 ## ✅ Minimum Required Features
 
-To be eligible for judging, the solution must demonstrate:
-
 | Feature | Description |
 |---|---|
-| **Intelligent Parsing** | Extraction of skills and experience levels from a Resume and a target Job Description |
-| **Dynamic Mapping** | Generation of a personalized learning pathway that addresses the specific "skill gap" identified |
-| **Functional Interface** | A minimal web-based UI allowing users to upload documents (Resume/JD) and visualize their custom training roadmap |
+| **Intelligent Parsing** | Extracts skills and experience levels from Resume and Job Description using O\*NET + NLP |
+| **Dynamic Mapping** | Generates a personalized learning pathway that addresses identified skill gaps |
+| **Functional Interface** | Web-based UI for uploading Resume/JD and visualizing the custom training roadmap |
 
 ---
 
@@ -36,186 +37,172 @@ AI-Adaptive-Onboarding-Engine/
 ├── Dockerfile              # Docker configuration
 ├── requirements.txt        # Python dependencies
 ├── main.py                 # FastAPI application entry point
-├── parser.py               # Resume text extraction logic
-├── skill_extractor.py      # Skill extraction using NLP
-├── gap_analysis.py         # Skill gap & analysis mapping
-├── roadmap_generator.py    # Generates custom learning paths
-├── adaptive_engine.py      # Dynamic quizzing & assessment logic
-├── chatbot.py              # AI Mentor chatbot
-├── frontend/               # Web UI components (HTML, CSS, JS)
+├── parser.py               # Resume & PDF text extraction
+├── skill_extractor.py      # Skill extraction via O*NET + regex NLP
+├── gap_analysis.py         # Semantic skill gap analysis (BERT / TF-IDF)
+├── roadmap_generator.py    # Personalized learning path generator (DAG + LLM)
+├── adaptive_engine.py      # Quiz scoring & roadmap status updater
+├── chatbot.py              # AI Mentor chatbot (Llama-3-8B)
+├── quiz_generator.py       # Adaptive difficulty quiz generation
+├── frontend/               # Web UI (HTML, CSS, JS)
 │   ├── index.html
 │   ├── script.js
 │   └── styles.css
-└── datasets/               # Datasets and knowledge graphs
+└── datasets/               # O*NET skill graphs and knowledge base
 ```
 
 ---
 
 ## 🛠️ Tech Stack & Models
 
-- **LLMs / Embeddings:** (e.g., Llama 3, BERT, Mistral) — *must be cited in documentation*
-- **Frameworks:** (e.g., LangChain, FastAPI, Streamlit, Flask)
-- **Datasets:**
-  - [Resume Dataset – Kaggle](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
-  - [Job Descriptions – OneNetCenter](https://www.onetcenter.org/db_releases.html)
-  - [Job & Description Dataset – Kaggle](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
+### Backend
+- **FastAPI** — Async Python REST API framework
+- **Uvicorn** — ASGI server for high-performance serving
 
-> ⚠️ All datasets and open-source models **must be explicitly cited** in documentation.
+### Machine Learning & NLP
+- **Sentence-Transformers (`all-MiniLM-L6-v2`)** — Semantic skill similarity via BERT embeddings
+- **Scikit-learn (TF-IDF)** — Fallback vectorizer for low-resource environments
+- **Mistral-7B-Instruct / Llama-3-8B** — Via HuggingFace Inference API for LLM-based roadmap generation
+- **NetworkX** — Directed Acyclic Graph (DAG) for skill prerequisite modeling
+
+### Frontend
+- Vanilla HTML / CSS / JavaScript — Glassmorphic, responsive single-page UI
+
+---
+
+## 🧠 Algorithms & Adaptive Logic
+
+### 1. Semantic Skill Extraction
+Skills are matched from the O\*NET Technology Skills and Skills datasets (8800+ skills) using **word-boundary-aware regex + substring matching**. Longer multi-word phrases are matched first to avoid partial collisions.
+
+### 2. Semantic Gap Analysis
+Rather than simple string equality, the **GapAnalyzer** uses **Cosine Similarity** on BERT embeddings (`all-MiniLM-L6-v2`) to identify semantically equivalent skills. For example, "Deep Learning" is recognized as a partial fulfillment for "Machine Learning". A configurable **threshold (default 0.75)** controls what is considered "fulfilled".
+
+### 3. Adaptive Pathing (DAG + Topological Sort)
+Missing skills are mapped onto a **Directed Acyclic Graph (DAG)** where edges represent prerequisite relationships (e.g., Python → Data Science). The roadmap is generated via **Topological Sort**, ensuring learners always encounter foundational concepts before advanced ones.
+
+### 4. LLM-Augmented Roadmap (Mistral/Llama)
+For novel or unrecognized skill gaps, the engine calls the **Mistral-7B-Instruct** model via HuggingFace to dynamically generate a structured learning path, returning a ranked JSON of steps with difficulty ratings.
+
+### 5. Adaptive Feedback Loop (Reasoning Trace)
+After each quiz, the `AdaptiveEngine` evaluates the score, updates the skill's **confidence level**, sets the roadmap step status (`completed`, `in_progress`, `needs_prerequisite`), and generates a human-readable **Reasoning Trace** explaining the AI's decision.
+
+---
+
+## 📊 Datasets
+
+| Dataset | Source | Usage |
+|---|---|---|
+| O\*NET Technology Skills | [onetcenter.org](https://www.onetcenter.org/db_releases.html) | Skill taxonomy (8800+ skills) |
+| O\*NET Skills | [onetcenter.org](https://www.onetcenter.org/db_releases.html) | Soft skills & competencies |
+| Resume Dataset | [Kaggle](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data) | Resume parsing validation |
+| Jobs & Job Descriptions | [Kaggle](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description) | JD skill extraction testing |
+
+> ⚠️ All datasets and open-source models are publicly available and cited in compliance with the Data & Model Compliance policy.
+
+---
+
+## 📐 Architecture Diagram
+
+```
+Resume (PDF/Text)         Job Description
+       │                        │
+       └───────────┬────────────┘
+                   ▼
+        [ parser.py — PyPDF2 ]
+                   │
+                   ▼
+    [ skill_extractor.py — O*NET NLP ]
+                   │
+         Extracted Skill Profiles
+                   │
+                   ▼
+     [ gap_analysis.py — BERT Cosine Sim ]
+                   │
+         Identified Skill Gaps (Missing)
+                   │
+                   ▼
+    [ roadmap_generator.py — DAG + LLM ]
+                   │
+       Personalized Learning Roadmap
+                   │
+                   ▼
+       [ adaptive_engine.py — Quiz + Feedback ]
+                   │
+         Updated Roadmap + Reasoning Trace
+                   │
+                   ▼
+            [ Web UI — frontend/ ]
+```
 
 ---
 
 ## ⚙️ Setup & Installation
 
 ### Prerequisites
-
 - Python 3.9+
-- pip / conda
+- pip
+- HuggingFace API Key (for LLM-powered roadmap generation)
 - Docker (optional)
 
-### Installation
-
+### 1. Clone & Install
 ```bash
-# Clone the repository
-git clone https://github.com/aditi-malviya666/AI-Adaptive-Onboarding-Engine.git
+git clone https://github.com/vishalsnghkush/AI-Adaptive-Onboarding-Engine.git
 cd AI-Adaptive-Onboarding-Engine
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Environment Setup
-
-Create a `.env` file in the root directory and add the following:
-
+### 2. Configure API Keys
+Create a `.env` file in the root:
 ```env
 HUGGINGFACE_API_KEY=your_huggingface_api_key_here
 ```
 
-### Running the Application
-
-Start the backend server and frontend view:
-
+### 3. Run the Server
 ```bash
-# Standard spin-up
 python main.py
-
-# Alternatively, run via Uvicorn explicitly
+# OR
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-The server runs on `http://localhost:8000`. Access the interactive Web UI at `http://localhost:8000/static/index.html`.
+Open the UI at: **`http://localhost:8000/static/index.html`**
 
-Or with Docker:
-
+### Docker (Optional)
 ```bash
 docker build -t ai-onboarding-engine .
-docker run -p 8080:8080 ai-onboarding-engine
-```
-
----
-
-## 🧠 How It Works
-
-1. **Input:** User uploads their **Resume** (PDF/text) and a **Job Description**
-2. **Parsing:** NLP engine extracts skills, experience levels, and competencies
-3. **Skill Gap Analysis:** Compares candidate profile against role requirements using an Adaptive Pathing algorithm (Graph-based or Knowledge Tracing)
-4. **Learning Pathway:** Generates a personalized, ordered training roadmap to bridge identified gaps
-5. **UI Visualization:** Displays the roadmap on an interactive web interface
-
----
-
-## 📊 Data & Model Compliance
-
-- **Transparency:** Only publicly available datasets are used (e.g., O\*NET, LinkedIn Skills, Kaggle)
-- **Originality:** While pre-trained models are encouraged, the **"Adaptive Logic"** (how the system decides what to teach next) is an original implementation
-- All models and datasets are cited below in the [References](#references) section
-rw
----
-
-## 📐 Architecture & Workflow
-
-```
-Resume (PDF/Text)      Job Description
-       │                      │
-       └──────────┬───────────┘
-                  ▼
-         [ NLP Parser / LLM ]
-                  │
-        Extracted Skills Profile
-                  │
-                  ▼
-        [ Skill Gap Analyzer ]
-        (Graph / Knowledge Tracing)
-                  │
-         Identified Skill Gaps
-                  │
-                  ▼
-       [ Pathway Generator ]
-                  │
-     Personalized Learning Roadmap
-                  │
-                  ▼
-          [ Web UI Display ]
+docker run -p 8000:8000 ai-onboarding-engine
 ```
 
 ---
 
 ## 🏆 Evaluation Criteria
 
-| Criterion | Weight | Description |
+| Criterion | Weight | How We Address It |
 |---|---|---|
-| Technical Sophistication | 20% | Accuracy of skill-extraction engine and logic/complexity of adaptive recommendation model |
-| Grounding & Reliability | 15% | Zero hallucinations; strict adherence to provided course catalog |
-| Reasoning Trace | 10% | Provide a reasoning trace feature |
-| Product Impact | 10% | Demonstrated effectiveness in reducing redundant training time and enabling role-specific competency |
-| User Experience | 15% | Clarity of the generated learning pathway and functional usability of the web interface |
-| Cross-Domain Scalability | 10% | Ability to generalize across diverse job categories (e.g., Technical/Desk vs. Operational/Labor roles) |
-| Communication & Documentation | 20% | Quality of GitHub Readme, Demo Video, and 5-Slide Presentation |
-
----
-
-## 📦 Submission Requirements
-
-### A. Public GitHub Repository
-- ✅ Fully documented and reproducible source code
-- ✅ This `README.md` with setup instructions, dependencies, and high-level overview
-- ⬜ `Dockerfile` for environment reproducibility *(optional but encouraged)*
-
-### B. Video Demonstration
-- **Duration:** 2–3 minutes
-- **Content:** End-to-end user journey showcasing the UI and how the pathway adapts to different inputs
-
-### C. Technical Presentation (The "5-Slide Deck")
-
-Your presentation must be strictly limited to **5 slides** using the following structure:
-
-1. **Solution Overview:** Value proposition and the specific problem-solving approach.
-2. **Architecture & Workflow:** System design, data flow, and UI/UX logic.
-3. **Tech Stack & Models:** Detailed list of LLMs, embedding models, and frameworks used.
-4. **Algorithms & Training:** Deep dive into the skill-extraction logic and the "Adaptive Pathing" algorithm (e.g., Graph-based or Knowledge Tracing).
-5. **Datasets & Metrics:** Disclosure of all public datasets used and the internal metrics used to validate the engine's efficiency.
-    - Datasets you may find useful:
-        - [Resume Dataset](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
-        - [O*NET Database Releases](https://www.onetcenter.org/db_releases.html)
-        - [Jobs and Job Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
+| Technical Sophistication | 20% | BERT embeddings + DAG-based adaptive pathing + LLM integration |
+| Grounding & Reliability | 15% | O\*NET-grounded skill extraction; TF-IDF fallback prevents hallucinations |
+| Reasoning Trace | 10% | Per-quiz reasoning trace explaining the AI's adaptive decision |
+| Product Impact | 10% | Match Score shows redundant training saved; roadmap focuses only on true gaps |
+| User Experience | 15% | Premium glassmorphic web UI with interactive skill chips, live roadmap, and AI chatbot |
+| Cross-Domain Scalability | 10% | O\*NET covers 8800+ skills across all job categories |
+| Communication & Documentation | 20% | This README, Dockerfile, and source code comments |
 
 ---
 
 ## 📚 References
 
-- [O\*NET Database Releases](https://www.onetcenter.org/db_releases.html)
-- [Resume Dataset – Kaggle](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
-- [Jobs and Job Description Dataset – Kaggle](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
-- Pre-trained models: *(list all models used, e.g., Llama 3, BERT, Mistral)*
+- [O\*NET Content Model & Database](https://www.onetcenter.org/db_releases.html)
+- [Resume Dataset — Kaggle (snehaanbhawal)](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset/data)
+- [Jobs and Job Description — Kaggle (kshitizregmi)](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
+- [Sentence Transformers — `all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+- [Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
+- [Llama-3-8B (Meta)](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct)
 
 ---
 
 ## 👥 Team
 
-| Name | Role |
-|---|---|
-| *Aditi Malviya & Vishal Kushwaha* |
-
----
-
-> *Note: Exceptional technical solutions must be matched by clear communication; a high-quality presentation and well-documented repository are essential for a winning submission.*
+| Name |
+|---|
+| Aditi Malviya |
+| Vishal Kushwaha |
