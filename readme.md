@@ -212,8 +212,8 @@ Your presentation must be strictly limited to **5 slides** using the following s
 
 ## 👥 Team
 
-| Name | Role |
-|---|---|
+| Name | 
+|---|
 | *Aditi Malviya & Vishal Kushwaha* |
 
 ---
