@@ -18,13 +18,7 @@ Current corporate onboarding often uses static, "one-size-fits-all" curricula â€
 
 ---
 
-## âœ… Minimum Required Features
 
-| Feature | Description |
-|---|---|
-| **Intelligent Parsing** | Extracts skills and experience levels from Resume and Job Description using O\*NET + NLP |
-| **Dynamic Mapping** | Generates a personalized learning pathway that addresses identified skill gaps |
-| **Functional Interface** | Web-based UI for uploading Resume/JD and visualizing the custom training roadmap |
 
 ---
 
