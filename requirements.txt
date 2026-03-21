@@ -8,3 +8,4 @@ scikit-learn
 networkx
 python-multipart
 requests
+python-dotenv

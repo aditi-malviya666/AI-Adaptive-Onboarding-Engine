@@ -7,159 +7,159 @@ let skillScores = {}; // dictionary mapping skill -> score
 // Skill Roadmap Data — dynamically matched per skill
 // ─────────────────────────────────────────────────────────────────
 const SKILL_ROADMAPS = {
-  sql: {
-    icon: "🗄️",
-    subtitle: "Master databases from scratch to advanced querying",
-    phases: [
-      { title: "Foundations", desc: "Understand what SQL is, how relational databases work, and basic CRUD operations.", topics: ["SELECT", "INSERT", "UPDATE", "DELETE", "WHERE", "ORDER BY"] },
-      { title: "Joins & Relationships", desc: "Query multiple related tables using different types of joins.", topics: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "Self JOIN"] },
-      { title: "Aggregation & Grouping", desc: "Summarise and group data for analytical insights.", topics: ["GROUP BY", "HAVING", "COUNT / SUM / AVG / MIN / MAX", "DISTINCT"] },
-      { title: "Subqueries & CTEs", desc: "Write complex, nested queries and clean reusable query blocks.", topics: ["Subqueries", "Correlated Subqueries", "WITH (CTE)", "EXISTS / NOT EXISTS"] },
-      { title: "Optimization & Advanced", desc: "Write performant SQL and use advanced database features.", topics: ["Indexes", "Execution Plans", "Stored Procedures", "Triggers", "Window Functions"] }
-    ]
-  },
-  python: {
-    icon: "🐍",
-    subtitle: "Go from beginner to professional Python developer",
-    phases: [
-      { title: "Python Basics", desc: "Core syntax, data types, and control flow.", topics: ["Variables", "Data Types", "if/else", "Loops", "Functions", "Lists & Dicts"] },
-      { title: "OOP & Modules", desc: "Object-oriented programming and Python standard library.", topics: ["Classes", "Inheritance", "Decorators", "Modules", "File I/O"] },
-      { title: "Data Manipulation", desc: "Work with data using pandas and numpy.", topics: ["NumPy arrays", "Pandas DataFrames", "Cleaning Data", "Groupby", "Merging"] },
-      { title: "APIs & Automation", desc: "Connect to external services and automate workflows.", topics: ["requests", "REST APIs", "JSON", "Web Scraping (BeautifulSoup)", "Regex"] },
-      { title: "Advanced & ML", desc: "Machine learning pipelines and production code.", topics: ["Scikit-learn", "Matplotlib / Seaborn", "Virtual Envs", "Type Hints", "Testing (pytest)"] }
-    ]
-  },
-  excel: {
-    icon: "📊",
-    subtitle: "Become an Excel power user for data analysis",
-    phases: [
-      { title: "Core Interface", desc: "Navigate and format spreadsheets efficiently.", topics: ["Cells & Ranges", "Formatting", "Sorting & Filtering", "Named Ranges"] },
-      { title: "Essential Formulas", desc: "Master the formulas every professional must know.", topics: ["SUM / IF / COUNTIF", "VLOOKUP / HLOOKUP", "INDEX / MATCH", "TEXT functions"] },
-      { title: "Data Analysis", desc: "Analyse and summarise large datasets.", topics: ["PivotTables", "PivotCharts", "Conditional Formatting", "Data Validation"] },
-      { title: "Automation", desc: "Automate repetitive work with macros.", topics: ["Recording Macros", "VBA Basics", "Power Query", "Get & Transform Data"] },
-      { title: "Advanced Analytics", desc: "Statistical and business analytics tools.", topics: ["Solver", "Goal Seek", "Scenario Manager", "Statistical Functions", "Dashboards"] }
-    ]
-  },
-  tableau: {
-    icon: "📈",
-    subtitle: "Build stunning data visualisations and dashboards",
-    phases: [
-      { title: "Tableau Fundamentals", desc: "Connect to data and understand the Tableau interface.", topics: ["Data Source Types", "Dimensions vs Measures", "Drag-and-Drop", "Marks"] },
-      { title: "Core Chart Types", desc: "Build the most common and effective chart types.", topics: ["Bar Charts", "Line Charts", "Scatter Plots", "Maps", "Treemaps"] },
-      { title: "Calculated Fields", desc: "Create custom metrics and computed dimensions.", topics: ["Basic Calculations", "LOD Expressions", "Table Calculations", "Parameters"] },
-      { title: "Interactive Dashboards", desc: "Combine sheets into powerful, interactive dashboards.", topics: ["Dashboard Actions", "Filters", "Highlight", "URL Actions", "Device Designer"] },
-      { title: "Advanced & Tableau Server", desc: "Deploy, share, and optimise visualisations.", topics: ["Data Blending", "Performance Tuning", "Tableau Public/Server", "REST API"] }
-    ]
-  },
-  "machine learning": {
-    icon: "🤖",
-    subtitle: "Build and deploy ML models end-to-end",
-    phases: [
-      { title: "ML Foundations", desc: "Understand key concepts: supervised vs unsupervised, bias-variance, model evaluation.", topics: ["Supervised Learning", "Unsupervised Learning", "Train/Test Split", "Cross-Validation"] },
-      { title: "Core Algorithms", desc: "Learn the most widely used ML algorithms.", topics: ["Linear Regression", "Logistic Regression", "Decision Trees", "KNN", "SVM"] },
-      { title: "Ensemble Methods", desc: "Build stronger models by combining learners.", topics: ["Random Forest", "Gradient Boosting", "XGBoost", "Bagging vs Boosting"] },
-      { title: "Deep Learning Intro", desc: "Neural networks and modern deep learning basics.", topics: ["Perceptrons", "Backpropagation", "CNNs", "RNNs", "Keras / PyTorch"] },
-      { title: "MLOps & Deployment", desc: "Take models from notebooks to production.", topics: ["Feature Engineering", "Hyperparameter Tuning", "Model Serving", "FastAPI", "Docker"] }
-    ]
-  },
-  "deep learning": {
-    icon: "🧠",
-    subtitle: "Master neural networks and AI model architectures",
-    phases: [
-      { title: "Neural Network Basics", desc: "Neurons, activation functions, and forward pass.", topics: ["Perceptron", "Sigmoid / ReLU", "Loss Functions", "Gradient Descent"] },
-      { title: "Training & Regularization", desc: "Train deep networks reliably.", topics: ["Backpropagation", "Batch Norm", "Dropout", "Adam Optimizer", "Learning Rate Scheduling"] },
-      { title: "Convolutional Networks", desc: "Image recognition and computer vision.", topics: ["CNN Architecture", "Pooling", "Transfer Learning", "ResNet / VGG / EfficientNet"] },
-      { title: "Sequence Models", desc: "Handle sequential and temporal data.", topics: ["RNNs", "LSTMs", "GRUs", "Attention Mechanism", "Transformers"] },
-      { title: "Modern AI", desc: "Large language models and generative AI.", topics: ["BERT / GPT", "Fine-tuning", "Prompt Engineering", "Diffusion Models", "Hugging Face"] }
-    ]
-  },
-  git: {
-    icon: "🌿",
-    subtitle: "Collaborate and version-control like a pro",
-    phases: [
-      { title: "Git Basics", desc: "Understand version control and basic commands.", topics: ["init / clone", "add / commit", "status / log", ".gitignore"] },
-      { title: "Branching & Merging", desc: "Manage parallel lines of work.", topics: ["branch", "checkout", "merge", "Merge Conflicts"] },
-      { title: "Remote Repositories", desc: "Collaborate with teams using remote repos.", topics: ["push / pull / fetch", "origin / upstream", "Pull Requests"] },
-      { title: "Advanced Workflows", desc: "Professional Git strategies for teams.", topics: ["rebase", "stash", "cherry-pick", "Git Flow", "GitHub Actions"] },
-      { title: "DevOps Integration", desc: "Integrate Git into CI/CD pipelines.", topics: ["GitHub Actions", "Webhooks", "Git Hooks", "Tagging & Releases"] }
-    ]
-  },
-  github: {
-    icon: "🐙",
-    subtitle: "Master GitHub for collaboration and open source",
-    phases: [
-      { title: "GitHub Basics", desc: "Create and manage repositories on GitHub.", topics: ["Repos", "Issues", "Stars / Forks", "README.md"] },
-      { title: "Pull Requests", desc: "Collaborate via code review workflows.", topics: ["Branching Strategy", "PR Templates", "Reviewers", "Merge Options"] },
-      { title: "GitHub Actions", desc: "Automate CI/CD workflows directly in GitHub.", topics: ["Workflows", "Triggers", "Jobs & Steps", "Marketplace Actions"] },
-      { title: "Project Management", desc: "Manage projects and track issues.", topics: ["Projects Boards", "Milestones", "Labels", "Discussions"] },
-      { title: "Advanced GitHub", desc: "Packages, security, and open-source best practices.", topics: ["GitHub Packages", "Dependabot", "Security Advisories", "Sponsors"] }
-    ]
-  },
-  numpy: {
-    icon: "🔢",
-    subtitle: "High-performance numerical computing with Python",
-    phases: [
-      { title: "NumPy Basics", desc: "Create and manipulate arrays.", topics: ["ndarray", "arange / linspace", "zeros / ones", "dtype"] },
-      { title: "Array Operations", desc: "Mathematical and logical array operations.", topics: ["Element-wise Ops", "Broadcasting", "Comparison", "Boolean Indexing"] },
-      { title: "Indexing & Slicing", desc: "Select and reshape data efficiently.", topics: ["Fancy Indexing", "Slices", "reshape", "flatten / ravel"] },
-      { title: "Linear Algebra", desc: "Matrix operations and linear algebra.", topics: ["dot / matmul", "transpose", "linalg.inv", "eigenvalues"] },
-      { title: "Advanced NumPy", desc: "Performance and integration with other libraries.", topics: ["Vectorization", "np.where", "random module", "Memory Layout", "Integration with Pandas/SciPy"] }
-    ]
-  },
-  pandas: {
-    icon: "🐼",
-    subtitle: "Data manipulation and analysis at scale",
-    phases: [
-      { title: "DataFrames & Series", desc: "Core pandas data structures.", topics: ["Series", "DataFrame", "read_csv", "head / tail / info"] },
-      { title: "Data Selection", desc: "Access and filter your data.", topics: ["loc / iloc", "Boolean Filtering", "query()", "Conditional Selection"] },
-      { title: "Data Cleaning", desc: "Handle missing values and transform data.", topics: ["dropna / fillna", "astype", "rename", "duplicates", "apply / map"] },
-      { title: "Aggregation", desc: "Group and summarise data.", topics: ["groupby", "agg", "pivot_table", "crosstab", "resample"] },
-      { title: "Merging & Time Series", desc: "Combine datasets and work with dates.", topics: ["merge / join / concat", "DatetimeIndex", "rolling", "shift"] }
-    ]
-  },
-  javascript: {
-    icon: "⚡",
-    subtitle: "Build dynamic web applications with JS",
-    phases: [
-      { title: "JS Fundamentals", desc: "Variables, types, and control flow.", topics: ["var / let / const", "Types", "Operators", "if/else", "Loops"] },
-      { title: "Functions & Scope", desc: "How functions and closures work.", topics: ["Arrow Functions", "Closures", "Hoisting", "this", "IIFE"] },
-      { title: "DOM & Events", desc: "Interact with the browser's document.", topics: ["querySelector", "addEventListener", "DOM Manipulation", "Event Bubbling"] },
-      { title: "Async JavaScript", desc: "Handle asynchronous operations.", topics: ["Callbacks", "Promises", "async / await", "fetch API", "Error Handling"] },
-      { title: "Modern JS & Frameworks", desc: "ES6+ features and popular frameworks.", topics: ["Modules", "Destructuring", "Spread", "React / Vue basics", "Node.js"] }
-    ]
-  },
-  linkedin: {
-    icon: "💼",
-    subtitle: "Build a professional brand that gets noticed",
-    phases: [
-      { title: "Profile Optimization", desc: "Make your profile stand out to recruiters.", topics: ["Headline", "About Section", "Photo", "Banner", "Skills Endorsements"] },
-      { title: "Network Building", desc: "Grow a relevant and engaged network.", topics: ["Connection Requests", "Personalised Messages", "Alumni Network", "Industry Groups"] },
-      { title: "Content Strategy", desc: "Post content that builds influence.", topics: ["Articles", "Posts", "Commenting Strategy", "Hashtags", "Consistency"] },
-      { title: "Job Search", desc: "Leverage LinkedIn for job discovery.", topics: ["Jobs Tab", "Easy Apply", "Job Alerts", "Recruiter InMail", "LinkedIn Premium"] },
-      { title: "Thought Leadership", desc: "Position yourself as an industry expert.", topics: ["Creator Mode", "LinkedIn Newsletter", "Speaking Engagements", "Collaborations"] }
-    ]
-  }
+    sql: {
+        icon: "🗄️",
+        subtitle: "Master databases from scratch to advanced querying",
+        phases: [
+            { title: "Foundations", desc: "Understand what SQL is, how relational databases work, and basic CRUD operations.", topics: ["SELECT", "INSERT", "UPDATE", "DELETE", "WHERE", "ORDER BY"] },
+            { title: "Joins & Relationships", desc: "Query multiple related tables using different types of joins.", topics: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "Self JOIN"] },
+            { title: "Aggregation & Grouping", desc: "Summarise and group data for analytical insights.", topics: ["GROUP BY", "HAVING", "COUNT / SUM / AVG / MIN / MAX", "DISTINCT"] },
+            { title: "Subqueries & CTEs", desc: "Write complex, nested queries and clean reusable query blocks.", topics: ["Subqueries", "Correlated Subqueries", "WITH (CTE)", "EXISTS / NOT EXISTS"] },
+            { title: "Optimization & Advanced", desc: "Write performant SQL and use advanced database features.", topics: ["Indexes", "Execution Plans", "Stored Procedures", "Triggers", "Window Functions"] }
+        ]
+    },
+    python: {
+        icon: "🐍",
+        subtitle: "Go from beginner to professional Python developer",
+        phases: [
+            { title: "Python Basics", desc: "Core syntax, data types, and control flow.", topics: ["Variables", "Data Types", "if/else", "Loops", "Functions", "Lists & Dicts"] },
+            { title: "OOP & Modules", desc: "Object-oriented programming and Python standard library.", topics: ["Classes", "Inheritance", "Decorators", "Modules", "File I/O"] },
+            { title: "Data Manipulation", desc: "Work with data using pandas and numpy.", topics: ["NumPy arrays", "Pandas DataFrames", "Cleaning Data", "Groupby", "Merging"] },
+            { title: "APIs & Automation", desc: "Connect to external services and automate workflows.", topics: ["requests", "REST APIs", "JSON", "Web Scraping (BeautifulSoup)", "Regex"] },
+            { title: "Advanced & ML", desc: "Machine learning pipelines and production code.", topics: ["Scikit-learn", "Matplotlib / Seaborn", "Virtual Envs", "Type Hints", "Testing (pytest)"] }
+        ]
+    },
+    excel: {
+        icon: "📊",
+        subtitle: "Become an Excel power user for data analysis",
+        phases: [
+            { title: "Core Interface", desc: "Navigate and format spreadsheets efficiently.", topics: ["Cells & Ranges", "Formatting", "Sorting & Filtering", "Named Ranges"] },
+            { title: "Essential Formulas", desc: "Master the formulas every professional must know.", topics: ["SUM / IF / COUNTIF", "VLOOKUP / HLOOKUP", "INDEX / MATCH", "TEXT functions"] },
+            { title: "Data Analysis", desc: "Analyse and summarise large datasets.", topics: ["PivotTables", "PivotCharts", "Conditional Formatting", "Data Validation"] },
+            { title: "Automation", desc: "Automate repetitive work with macros.", topics: ["Recording Macros", "VBA Basics", "Power Query", "Get & Transform Data"] },
+            { title: "Advanced Analytics", desc: "Statistical and business analytics tools.", topics: ["Solver", "Goal Seek", "Scenario Manager", "Statistical Functions", "Dashboards"] }
+        ]
+    },
+    tableau: {
+        icon: "📈",
+        subtitle: "Build stunning data visualisations and dashboards",
+        phases: [
+            { title: "Tableau Fundamentals", desc: "Connect to data and understand the Tableau interface.", topics: ["Data Source Types", "Dimensions vs Measures", "Drag-and-Drop", "Marks"] },
+            { title: "Core Chart Types", desc: "Build the most common and effective chart types.", topics: ["Bar Charts", "Line Charts", "Scatter Plots", "Maps", "Treemaps"] },
+            { title: "Calculated Fields", desc: "Create custom metrics and computed dimensions.", topics: ["Basic Calculations", "LOD Expressions", "Table Calculations", "Parameters"] },
+            { title: "Interactive Dashboards", desc: "Combine sheets into powerful, interactive dashboards.", topics: ["Dashboard Actions", "Filters", "Highlight", "URL Actions", "Device Designer"] },
+            { title: "Advanced & Tableau Server", desc: "Deploy, share, and optimise visualisations.", topics: ["Data Blending", "Performance Tuning", "Tableau Public/Server", "REST API"] }
+        ]
+    },
+    "machine learning": {
+        icon: "🤖",
+        subtitle: "Build and deploy ML models end-to-end",
+        phases: [
+            { title: "ML Foundations", desc: "Understand key concepts: supervised vs unsupervised, bias-variance, model evaluation.", topics: ["Supervised Learning", "Unsupervised Learning", "Train/Test Split", "Cross-Validation"] },
+            { title: "Core Algorithms", desc: "Learn the most widely used ML algorithms.", topics: ["Linear Regression", "Logistic Regression", "Decision Trees", "KNN", "SVM"] },
+            { title: "Ensemble Methods", desc: "Build stronger models by combining learners.", topics: ["Random Forest", "Gradient Boosting", "XGBoost", "Bagging vs Boosting"] },
+            { title: "Deep Learning Intro", desc: "Neural networks and modern deep learning basics.", topics: ["Perceptrons", "Backpropagation", "CNNs", "RNNs", "Keras / PyTorch"] },
+            { title: "MLOps & Deployment", desc: "Take models from notebooks to production.", topics: ["Feature Engineering", "Hyperparameter Tuning", "Model Serving", "FastAPI", "Docker"] }
+        ]
+    },
+    "deep learning": {
+        icon: "🧠",
+        subtitle: "Master neural networks and AI model architectures",
+        phases: [
+            { title: "Neural Network Basics", desc: "Neurons, activation functions, and forward pass.", topics: ["Perceptron", "Sigmoid / ReLU", "Loss Functions", "Gradient Descent"] },
+            { title: "Training & Regularization", desc: "Train deep networks reliably.", topics: ["Backpropagation", "Batch Norm", "Dropout", "Adam Optimizer", "Learning Rate Scheduling"] },
+            { title: "Convolutional Networks", desc: "Image recognition and computer vision.", topics: ["CNN Architecture", "Pooling", "Transfer Learning", "ResNet / VGG / EfficientNet"] },
+            { title: "Sequence Models", desc: "Handle sequential and temporal data.", topics: ["RNNs", "LSTMs", "GRUs", "Attention Mechanism", "Transformers"] },
+            { title: "Modern AI", desc: "Large language models and generative AI.", topics: ["BERT / GPT", "Fine-tuning", "Prompt Engineering", "Diffusion Models", "Hugging Face"] }
+        ]
+    },
+    git: {
+        icon: "🌿",
+        subtitle: "Collaborate and version-control like a pro",
+        phases: [
+            { title: "Git Basics", desc: "Understand version control and basic commands.", topics: ["init / clone", "add / commit", "status / log", ".gitignore"] },
+            { title: "Branching & Merging", desc: "Manage parallel lines of work.", topics: ["branch", "checkout", "merge", "Merge Conflicts"] },
+            { title: "Remote Repositories", desc: "Collaborate with teams using remote repos.", topics: ["push / pull / fetch", "origin / upstream", "Pull Requests"] },
+            { title: "Advanced Workflows", desc: "Professional Git strategies for teams.", topics: ["rebase", "stash", "cherry-pick", "Git Flow", "GitHub Actions"] },
+            { title: "DevOps Integration", desc: "Integrate Git into CI/CD pipelines.", topics: ["GitHub Actions", "Webhooks", "Git Hooks", "Tagging & Releases"] }
+        ]
+    },
+    github: {
+        icon: "🐙",
+        subtitle: "Master GitHub for collaboration and open source",
+        phases: [
+            { title: "GitHub Basics", desc: "Create and manage repositories on GitHub.", topics: ["Repos", "Issues", "Stars / Forks", "README.md"] },
+            { title: "Pull Requests", desc: "Collaborate via code review workflows.", topics: ["Branching Strategy", "PR Templates", "Reviewers", "Merge Options"] },
+            { title: "GitHub Actions", desc: "Automate CI/CD workflows directly in GitHub.", topics: ["Workflows", "Triggers", "Jobs & Steps", "Marketplace Actions"] },
+            { title: "Project Management", desc: "Manage projects and track issues.", topics: ["Projects Boards", "Milestones", "Labels", "Discussions"] },
+            { title: "Advanced GitHub", desc: "Packages, security, and open-source best practices.", topics: ["GitHub Packages", "Dependabot", "Security Advisories", "Sponsors"] }
+        ]
+    },
+    numpy: {
+        icon: "🔢",
+        subtitle: "High-performance numerical computing with Python",
+        phases: [
+            { title: "NumPy Basics", desc: "Create and manipulate arrays.", topics: ["ndarray", "arange / linspace", "zeros / ones", "dtype"] },
+            { title: "Array Operations", desc: "Mathematical and logical array operations.", topics: ["Element-wise Ops", "Broadcasting", "Comparison", "Boolean Indexing"] },
+            { title: "Indexing & Slicing", desc: "Select and reshape data efficiently.", topics: ["Fancy Indexing", "Slices", "reshape", "flatten / ravel"] },
+            { title: "Linear Algebra", desc: "Matrix operations and linear algebra.", topics: ["dot / matmul", "transpose", "linalg.inv", "eigenvalues"] },
+            { title: "Advanced NumPy", desc: "Performance and integration with other libraries.", topics: ["Vectorization", "np.where", "random module", "Memory Layout", "Integration with Pandas/SciPy"] }
+        ]
+    },
+    pandas: {
+        icon: "🐼",
+        subtitle: "Data manipulation and analysis at scale",
+        phases: [
+            { title: "DataFrames & Series", desc: "Core pandas data structures.", topics: ["Series", "DataFrame", "read_csv", "head / tail / info"] },
+            { title: "Data Selection", desc: "Access and filter your data.", topics: ["loc / iloc", "Boolean Filtering", "query()", "Conditional Selection"] },
+            { title: "Data Cleaning", desc: "Handle missing values and transform data.", topics: ["dropna / fillna", "astype", "rename", "duplicates", "apply / map"] },
+            { title: "Aggregation", desc: "Group and summarise data.", topics: ["groupby", "agg", "pivot_table", "crosstab", "resample"] },
+            { title: "Merging & Time Series", desc: "Combine datasets and work with dates.", topics: ["merge / join / concat", "DatetimeIndex", "rolling", "shift"] }
+        ]
+    },
+    javascript: {
+        icon: "⚡",
+        subtitle: "Build dynamic web applications with JS",
+        phases: [
+            { title: "JS Fundamentals", desc: "Variables, types, and control flow.", topics: ["var / let / const", "Types", "Operators", "if/else", "Loops"] },
+            { title: "Functions & Scope", desc: "How functions and closures work.", topics: ["Arrow Functions", "Closures", "Hoisting", "this", "IIFE"] },
+            { title: "DOM & Events", desc: "Interact with the browser's document.", topics: ["querySelector", "addEventListener", "DOM Manipulation", "Event Bubbling"] },
+            { title: "Async JavaScript", desc: "Handle asynchronous operations.", topics: ["Callbacks", "Promises", "async / await", "fetch API", "Error Handling"] },
+            { title: "Modern JS & Frameworks", desc: "ES6+ features and popular frameworks.", topics: ["Modules", "Destructuring", "Spread", "React / Vue basics", "Node.js"] }
+        ]
+    },
+    linkedin: {
+        icon: "💼",
+        subtitle: "Build a professional brand that gets noticed",
+        phases: [
+            { title: "Profile Optimization", desc: "Make your profile stand out to recruiters.", topics: ["Headline", "About Section", "Photo", "Banner", "Skills Endorsements"] },
+            { title: "Network Building", desc: "Grow a relevant and engaged network.", topics: ["Connection Requests", "Personalised Messages", "Alumni Network", "Industry Groups"] },
+            { title: "Content Strategy", desc: "Post content that builds influence.", topics: ["Articles", "Posts", "Commenting Strategy", "Hashtags", "Consistency"] },
+            { title: "Job Search", desc: "Leverage LinkedIn for job discovery.", topics: ["Jobs Tab", "Easy Apply", "Job Alerts", "Recruiter InMail", "LinkedIn Premium"] },
+            { title: "Thought Leadership", desc: "Position yourself as an industry expert.", topics: ["Creator Mode", "LinkedIn Newsletter", "Speaking Engagements", "Collaborations"] }
+        ]
+    }
 };
 
 // Generic fallback roadmap for any skill not in the dictionary
 function getGenericRoadmap(skill) {
-  const s = skill.charAt(0).toUpperCase() + skill.slice(1);
-  return {
-    icon: "📚",
-    subtitle: `Structured learning path for ${s}`,
-    phases: [
-      { title: `${s} Foundations`, desc: `Learn what ${s} is, its core concepts, and how to set up your environment.`, topics: [`What is ${s}?`, `${s} Key Terminology`, `Setting Up ${s}`, `Hello World in ${s}`] },
-      { title: `Core ${s} Skills`, desc: `Build hands-on proficiency with the essential features of ${s}.`, topics: [`${s} Fundamentals`, `Common ${s} Patterns`, `${s} Exercises`, `Debugging ${s}`] },
-      { title: `Intermediate ${s}`, desc: `Apply your ${s} knowledge to realistic, production-like scenarios.`, topics: [`${s} Mini Projects`, `${s} Case Studies`, `${s} Integration`, `Peer Review`] },
-      { title: `Advanced ${s}`, desc: `Explore advanced ${s} topics, performance tuning, and best practices.`, topics: [`${s} Performance`, `${s} Best Practices`, `${s} Edge Cases`, `${s} Design Patterns`] },
-      { title: `${s} in Production`, desc: `Build portfolio-worthy ${s} projects and prepare for interviews.`, topics: [`${s} Capstone Project`, `${s} Portfolio`, `${s} Interview Prep`, `${s} Certifications`] }
-    ]
-  };
+    const s = skill.charAt(0).toUpperCase() + skill.slice(1);
+    return {
+        icon: "📚",
+        subtitle: `Structured learning path for ${s}`,
+        phases: [
+            { title: `${s} Foundations`, desc: `Learn what ${s} is, its core concepts, and how to set up your environment.`, topics: [`What is ${s}?`, `${s} Key Terminology`, `Setting Up ${s}`, `Hello World in ${s}`] },
+            { title: `Core ${s} Skills`, desc: `Build hands-on proficiency with the essential features of ${s}.`, topics: [`${s} Fundamentals`, `Common ${s} Patterns`, `${s} Exercises`, `Debugging ${s}`] },
+            { title: `Intermediate ${s}`, desc: `Apply your ${s} knowledge to realistic, production-like scenarios.`, topics: [`${s} Mini Projects`, `${s} Case Studies`, `${s} Integration`, `Peer Review`] },
+            { title: `Advanced ${s}`, desc: `Explore advanced ${s} topics, performance tuning, and best practices.`, topics: [`${s} Performance`, `${s} Best Practices`, `${s} Edge Cases`, `${s} Design Patterns`] },
+            { title: `${s} in Production`, desc: `Build portfolio-worthy ${s} projects and prepare for interviews.`, topics: [`${s} Capstone Project`, `${s} Portfolio`, `${s} Interview Prep`, `${s} Certifications`] }
+        ]
+    };
 }
 
 function getRoadmapForSkill(skill) {
-  const key = skill.toLowerCase().trim();
-  return SKILL_ROADMAPS[key] || getGenericRoadmap(skill);
+    const key = skill.toLowerCase().trim();
+    return SKILL_ROADMAPS[key] || getGenericRoadmap(skill);
 }
 
 document.getElementById('analyze-btn').addEventListener('click', async () => {
@@ -197,6 +197,7 @@ document.getElementById('analyze-btn').addEventListener('click', async () => {
         data.user_skills.forEach(skill => {
             const span = document.createElement('span');
             span.className = 'chip present';
+            span.dataset.skill = skill.toLowerCase();
             span.style.cursor = 'pointer';
             span.title = 'Click to take adaptive test!';
             span.onclick = () => openQuiz(skill);
@@ -209,6 +210,7 @@ document.getElementById('analyze-btn').addEventListener('click', async () => {
         data.missing_skills.forEach(skill => {
             const span = document.createElement('span');
             span.className = 'chip missing';
+            span.dataset.skill = skill.toLowerCase();
             span.style.cursor = 'pointer';
             span.title = 'Click to take adaptive test!';
             span.onclick = () => openQuiz(skill);
@@ -246,7 +248,7 @@ function renderRoadmap(roadmap) {
 
         // Unique submenu ID per step
         const menuId = `submenu-${index}`;
-        const btnId  = `optbtn-${index}`;
+        const btnId = `optbtn-${index}`;
 
         stepDiv.innerHTML = `
             <div class="step-header">
@@ -282,9 +284,9 @@ function renderRoadmap(roadmap) {
 }
 
 // ── Submenu toggle helpers ────────────────────────────────────────────────────
-window.toggleSubmenu = function(menuId, btnId) {
+window.toggleSubmenu = function (menuId, btnId) {
     const menu = document.getElementById(menuId);
-    const btn  = document.getElementById(btnId);
+    const btn = document.getElementById(btnId);
     const isOpen = menu.classList.contains('visible');
 
     closeAllSubmenus(); // close any other open submenus first
@@ -295,7 +297,7 @@ window.toggleSubmenu = function(menuId, btnId) {
     }
 };
 
-window.closeAllSubmenus = function() {
+window.closeAllSubmenus = function () {
     document.querySelectorAll('.step-submenu.visible').forEach(m => m.classList.remove('visible'));
     document.querySelectorAll('.step-options-btn.open').forEach(b => b.classList.remove('open'));
 };
@@ -308,11 +310,11 @@ document.addEventListener('click', (e) => {
 });
 
 // ── Skill Roadmap Modal ───────────────────────────────────────────────────────
-window.openSkillRoadmap = function(skill) {
+window.openSkillRoadmap = function (skill) {
     const roadmapData = getRoadmapForSkill(skill);
 
-    document.getElementById('roadmap-modal-icon').textContent    = roadmapData.icon;
-    document.getElementById('roadmap-modal-title').textContent   = `${skill} Roadmap`;
+    document.getElementById('roadmap-modal-icon').textContent = roadmapData.icon;
+    document.getElementById('roadmap-modal-title').textContent = `${skill} Roadmap`;
     document.getElementById('roadmap-modal-subtitle').textContent = roadmapData.subtitle;
 
     const phasesContainer = document.getElementById('roadmap-modal-phases');
@@ -458,8 +460,8 @@ document.getElementById('submit-quiz').addEventListener('click', async () => {
         const chipClass = isPresent ? '.chip.present' : '.chip.missing';
         const chips = document.querySelectorAll(chipClass);
         chips.forEach(chip => {
-            // Find the specific chip they just tested by partial text match
-            if (chip.textContent.toLowerCase().includes(quizSkill.toLowerCase())) {
+            // Find the specific chip they just tested by exact dataset match
+            if (chip.dataset.skill === quizSkill.toLowerCase()) {
                 if (score >= 80 && currentTier === 'hard') {
                     chip.innerHTML = `${quizSkill} <span style="font-size:0.8em; margin-left:5px; padding:3px 6px; border-radius:4px; background:rgba(46,204,113,0.3); color:#2ecc71;">✅ Verified</span>`;
                     chip.style.borderColor = '#2ecc71';
