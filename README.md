@@ -79,7 +79,7 @@ Missing skills are mapped onto a **Directed Acyclic Graph (DAG)** where edges re
 For novel or unrecognized skill gaps, the engine calls the **Mistral-7B-Instruct** model via HuggingFace to dynamically generate a structured learning path, returning a ranked JSON of steps with difficulty ratings.
 
 ### 5. Adaptive Feedback Loop (Reasoning Trace)
-After each quiz, the `AdaptiveEngine` evaluates the score, updates the skill's **confidence level**, sets the roadmap step status (`completed`, `in_progress`, `needs_prerequisite`), and generates a human-readable **Reasoning Trace** explaining the AI's decision.
+After each assessment, the `AdaptiveEngine`updates the learner’s skill confidence scores, adjusts roadmap states  (`completed`, `in_progress`, `needs_prerequisite`), and generates a human-readable reasoning trace explaining the system’s decisions—enhancing transparency and interpretability.
 
 ---
 
