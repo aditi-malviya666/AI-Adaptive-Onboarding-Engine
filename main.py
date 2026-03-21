@@ -29,8 +29,12 @@ app.add_middleware(
 )
 
 # Serve frontend static files
-app.mount("/static", StaticFiles(directory="frontend", html=True), name="static")
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
+from fastapi.responses import FileResponse
 
+@app.get("/")
+def serve_frontend():
+    return FileResponse("frontend/index.html")
 # Initialize engines on startup (or lazy load)
 extractor = get_skill_extractor("datasets")
 analyzer = get_gap_analyzer()
@@ -53,9 +57,7 @@ class QuizResultRequest(BaseModel):
     is_present: bool = False
     tier: str = "easy"
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the AI-Adaptive Onboarding Engine API"}
+
 
 @app.get("/health")
 def health_check():
