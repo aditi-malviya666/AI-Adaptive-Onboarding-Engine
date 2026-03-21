@@ -37,7 +37,7 @@ def serve_frontend():
     return FileResponse("frontend/index.html")
 # Initialize engines on startup (or lazy load)
 extractor = get_skill_extractor("datasets")
-analyzer = get_gap_analyzer()
+analyzer = get_gap_analyzer(model_name="tfidf")
 roadmap_gen = get_roadmap_generator("datasets/skill_graph.json")
 adaptive_engine = get_adaptive_engine()
 mentor = get_ai_mentor()
