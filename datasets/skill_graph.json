@@ -1,0 +1,67 @@
+{
+  "HTML": {
+    "dependencies": [],
+    "category": "Frontend",
+    "difficulty": 1
+  },
+  "CSS": {
+    "dependencies": ["HTML"],
+    "category": "Frontend",
+    "difficulty": 1
+  },
+  "JavaScript": {
+    "dependencies": ["HTML", "CSS"],
+    "category": "Frontend",
+    "difficulty": 2
+  },
+  "React": {
+    "dependencies": ["JavaScript"],
+    "category": "Frontend",
+    "difficulty": 3
+  },
+  "Python": {
+    "dependencies": [],
+    "category": "Backend",
+    "difficulty": 2
+  },
+  "FastAPI": {
+    "dependencies": ["Python"],
+    "category": "Backend",
+    "difficulty": 3
+  },
+  "SQL": {
+    "dependencies": [],
+    "category": "Database",
+    "difficulty": 2
+  },
+  "Machine Learning": {
+    "dependencies": ["Python", "SQL"],
+    "category": "Data Science",
+    "difficulty": 4
+  },
+  "Deep Learning": {
+    "dependencies": ["Machine Learning", "Mathematics"],
+    "category": "Data Science",
+    "difficulty": 5
+  },
+  "Mathematics": {
+    "dependencies": [],
+    "category": "Core",
+    "difficulty": 3
+  },
+  "AWS": {
+    "dependencies": [],
+    "category": "Cloud Computing",
+    "difficulty": 3
+  },
+  "Docker": {
+    "dependencies": [],
+    "category": "DevOps",
+    "difficulty": 3
+  },
+  "Kubernetes": {
+    "dependencies": ["Docker"],
+    "category": "DevOps",
+    "difficulty": 4
+  }
+}

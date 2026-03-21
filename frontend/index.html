@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Adaptive Onboarding Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container glass-panel">
+        <header>
+            <h1>AI-Adaptive Onboarding</h1>
+            <p>Upload your resume and the target job description to generate a personalized learning roadmap.</p>
+        </header>
+
+        <section class="inputs-section">
+            <div class="input-group">
+                <label>Your Resume (Upload PDF or Paste Text)</label>
+                <input type="file" id="resume-file" accept=".pdf" style="margin-bottom: 0.5rem; color: white;">
+                <textarea id="resume-text" placeholder="Or paste your resume content here..."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="jd-text">Target Job Description</label>
+                <textarea id="jd-text" placeholder="Paste the job requirements here..."></textarea>
+            </div>
+            <button id="analyze-btn" class="primary-btn">Generate Roadmap 🚀</button>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <div class="score-card glass-panel-inner">
+                <h3>Match Score</h3>
+                <div class="circular-progress">
+                    <span id="match-score-value">0%</span>
+                </div>
+            </div>
+
+            <div class="skills-overview">
+                <div class="skills-box glass-panel-inner">
+                    <h4>Your Skills</h4>
+                    <div id="user-skills-container" class="chip-container"></div>
+                </div>
+                <div class="skills-box glass-panel-inner">
+                    <h4>Missing Skills</h4>
+                    <div id="missing-skills-container" class="chip-container"></div>
+                </div>
+            </div>
+
+            <div class="roadmap-section">
+                <h3>Your Personalized Learning Path</h3>
+                <div id="roadmap-timeline" class="timeline"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <div class="chatbot-header" id="chatbot-toggle">
+            🤖 AI Mentor
+            <span id="chat-icon">▲</span>
+        </div>
+        <div class="chatbot-body hidden" id="chatbot-body">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai-message">Hello! I am your AI Mentor. How can I help you with your learning path
+                    today?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Type a question...">
+                <button id="chat-send">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="modal hidden">
+        <div class="modal-content glass-panel"
+            style="width: 80%; max-width: 800px; max-height: 85vh; overflow-y: auto; text-align: left;">
+            <span class="close-modal">&times;</span>
+            <h3 id="quiz-title">Adaptive Test</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+                This 5-question dynamic test is generated on the fly using ML (Natural Language Processing).
+            </p>
+            <div id="quiz-questions-container" style="margin: 1.5rem 0;">
+                <p>Generating personalized Quiz using Machine Learning...</p>
+            </div>
+            <button id="submit-quiz" class="primary-btn hidden">Submit Answers &amp; Calculate Score</button>
+            <div id="quiz-feedback" class="feedback" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+
+    <!-- Skill Roadmap Modal -->
+    <div id="skill-roadmap-modal" class="modal hidden">
+        <div class="modal-content glass-panel" style="width: 80%; max-width: 750px; max-height: 88vh; overflow-y: auto; text-align: left;">
+            <span class="close-modal" id="close-roadmap-modal">&times;</span>
+            <div id="roadmap-modal-header" style="margin-bottom: 1.5rem;">
+                <div style="display:flex; align-items:center; gap: 0.8rem; margin-bottom: 0.5rem;">
+                    <span id="roadmap-modal-icon" style="font-size: 2rem;">🗺️</span>
+                    <div>
+                        <h3 id="roadmap-modal-title" style="font-size:1.6rem; font-weight:800; background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Skill Roadmap</h3>
+                        <p id="roadmap-modal-subtitle" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 2px;">Your step-by-step learning path</p>
+                    </div>
+                </div>
+            </div>
+            <div id="roadmap-modal-phases"></div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
