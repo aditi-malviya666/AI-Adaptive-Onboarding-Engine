@@ -1,4 +1,4 @@
-# Comprehensive 1000-Line Codebase Architecture & Execution Guide
+# Comprehensive Codebase Architecture & Execution Guide
 
 This document is the absolute, most exhaustive walkthrough of the Next.js AI platform. It is formatted to explicitly break down the literal code block by block, function by function, and variable by variable.
 
