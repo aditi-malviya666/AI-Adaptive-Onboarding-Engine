@@ -18,6 +18,15 @@ Current corporate onboarding often uses static, "one-size-fits-all" curricula �
 
 ---
 
+## ✨ Features
+
+- 🎯 **Automated Skill Extraction:** Instantly extract technical skills and competencies from resumes or JDs.
+- 🛣️ **Dynamic Roadmaps:** Generate directed learning paths based on missing prerequisites.
+- 🤖 **AI Mentor Chatbot:** Llama-3-powered assistant to help users with domain-specific questions.
+- 📊 **Real-time Analytics:** Track progress, quiz scores, and roadmap updates seamlessly.
+
+---
+
 
 
 ---
