@@ -27,6 +27,14 @@ Current corporate onboarding often uses static, "one-size-fits-all" curricula â€
 
 ---
 
+## ðŸ”® Future Scope
+
+- **Integration with LMS Platforms:** Direct API integration with Canvas, Moodle, and other major Learning Management Systems.
+- **Advanced Gamification:** Introduce skill badges, leaderboards, and streak tracking to increase learner engagement.
+- **Multilingual Support:** Enable the AI Mentor and quiz generation in multiple languages for global workforces.
+
+---
+
 
 
 ---
