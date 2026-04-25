@@ -170,6 +170,12 @@ docker run -p 8000:8000 ai-onboarding-engine
 ---
 
 
+## 🤝 Contributing
+
+Contributions are welcome! If you have suggestions or would like to add features, please feel free to fork the repository, make your changes, and submit a pull request.
+
+---
+
 ## 📚 References
 
 - [O\*NET Content Model & Database](https://www.onetcenter.org/db_releases.html)
