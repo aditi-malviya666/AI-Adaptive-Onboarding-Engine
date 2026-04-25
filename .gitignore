@@ -13,3 +13,9 @@ build/
 .next/
 .DS_Store
 *.log
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
